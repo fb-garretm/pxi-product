@@ -1,16 +1,34 @@
 # AGENTS.md
 
-## Cursor Cloud specific instructions
+## Repository purpose
 
-This repository (`pxi-product`) is currently an empty project scaffold with only a `README.md`. There are no application services, dependencies, build systems, or test frameworks configured yet.
+`pxi-product` is a **product document repository** — not a code project. It contains PRDs, discovery materials, and other product artifacts in Markdown.
 
-### Current state
-- **No source code** — no application, library, or service code exists.
-- **No package manager** — no `package.json`, `requirements.txt`, `go.mod`, or equivalent.
-- **No build/test/lint tooling** — no scripts, Makefile, or CI configuration.
-- **No Docker or container setup** — no `Dockerfile` or `docker-compose.yml`.
+## Directory structure
 
-### Notes for future agents
-- Once application code is added, update this file with service descriptions, startup commands, and testing instructions.
-- If the project uses JavaScript/TypeScript, check for a lockfile to determine the correct package manager (`npm`, `yarn`, `pnpm`, or `bun`).
-- The workspace rule references "FB Toolkit" and "Shadcn Forms" — these should be used when building UI components.
+| Folder | Contents |
+|--------|----------|
+| `prds/` | Product Requirements Documents |
+| `discovery/` | Research, interviews, competitive analysis |
+| `notes/` | Meeting notes, general notes, action items |
+| `products/` | Product overviews, feature descriptions, specs |
+| `strategy/` | Roadmap, vision, strategic planning |
+| `templates/` | Reusable document templates |
+| `.cursor/skills/` | Cursor Agent Skills — auto-applied when writing PRDs, discovery docs, or importing documents |
+
+## Agent guidelines
+
+### Creating documents
+- Always start from the appropriate template in `templates/` when creating a new PRD, discovery doc, or importing a document.
+- Name files with lowercase kebab-case: `feature-name.md`, `topic-research.md`.
+- Place documents in the correct top-level folder based on their type.
+
+### Editing documents
+- When asked to iterate on a document, preserve existing content unless explicitly told to remove it. Add, refine, or restructure — don't delete without being asked.
+- Use clear Markdown formatting: headings, tables, checklists, and bullet points.
+- Keep language concise and direct. Avoid filler.
+
+### What this repo is NOT
+- No application source code, build systems, or dependencies.
+- No CI/CD, Docker, or infrastructure configuration.
+- Do not create `package.json`, `requirements.txt`, or similar files.
