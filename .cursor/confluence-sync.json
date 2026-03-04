@@ -1,0 +1,12 @@
+{
+  "onlyAfterFebruary": false,
+  "parentFolder": {
+    "folderId": "775979011",
+    "path": "notes/garret",
+    "label": "Standup notes (parent with month subfolders)",
+    "monthSubfolders": true,
+    "onlyAfterFebruary": true,
+    "year": 2026
+  },
+  "folders": []
+}
