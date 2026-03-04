@@ -20,6 +20,29 @@ _Bullet or two: the thing in plain language._
 
 _Link or one-liner. Lo-fi is fine._
 
+## User flows
+
+_Optional but recommended when the feature has multiple paths, phases, or user journeys. One subsection per flow; order flows in the sequence you ship (e.g. crawl → walk → power walk)._
+
+### [Flow name, e.g. Phase 1: Self-service]
+
+| Step | Customer does | System does |
+|------|----------------|-------------|
+| 1 | _Action or decision_ | _Backend / UI response_ |
+| 2 | … | … |
+
+**Outcome:** _One line: what’s true when this flow is done._
+
+---
+
+### [Another flow, if applicable]
+
+| Step | Customer does | System does |
+|------|----------------|-------------|
+| 1 | … | … |
+
+**Outcome:** …
+
 ## Requirements
 
 _Group by theme or area of the feature / product. P0 = must ship. P1 = in scope if we have time._

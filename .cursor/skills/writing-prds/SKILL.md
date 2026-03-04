@@ -13,6 +13,7 @@ description: Drafts and edits Product Requirements Documents following team conv
 ## Conventions
 
 - **Section order matters.** Ship by and Design/UX come first, right after the title.
+- **User flows** (optional): When the feature has multiple paths, phases, or user journeys, add a **User flows** section after Design/UX. For each flow use a step-by-step table with columns **Step**, **Customer does**, **System does**, and end with **Outcome:** one line stating what’s true when the flow is done. Order flows in ship sequence (e.g. crawl → walk → power walk). This makes it clear who does what at each step.
 - **"What & why"** is one sentence. Not a paragraph.
 - **Requirements** are grouped by theme or area of the feature or product. Each theme has P0 (must ship) and P1 (in scope if we have time) if applicable. No P2.
 - **"How we'll know it worked"** must be qualitative — observable signals like "users stop asking for X" or "we can do Y without the workaround." No analytics, no dashboards, no metrics tables.
