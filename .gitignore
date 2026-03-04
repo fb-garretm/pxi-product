@@ -1,0 +1,8 @@
+# OS
+.DS_Store
+
+# Local tooling (e.g. for md→docx / md→Google Doc)
+.venv/
+scripts/.credentials/
+scripts/client_secret*.json
+scripts/token.json
