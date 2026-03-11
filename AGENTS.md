@@ -12,6 +12,7 @@
 | `discovery/` | Research, interviews, competitive analysis |
 | `notes/` | Meeting notes, general notes, action items |
 | `products/` | Product overviews, feature descriptions, specs |
+| `prototypes/` | Interactive HTML wireframes generated from PRDs |
 | `strategy/` | Roadmap, vision, strategic planning |
 | `templates/` | Reusable document templates |
 | `.cursor/skills/` | Cursor Agent Skills — auto-applied when writing PRDs, discovery docs, or importing documents |
@@ -22,6 +23,7 @@
 - Always start from the appropriate template in `templates/` when creating a new PRD, discovery doc, or importing a document.
 - Name files with lowercase kebab-case: `feature-name.md`, `topic-research.md`.
 - Place documents in the correct top-level folder based on their type.
+- Prototypes belong in `prototypes/` as self-contained HTML artifacts that open directly in a browser. Prefer single-file `index.html` prototypes with inline CSS/JS over app-style build systems.
 
 ### Editing documents
 - When asked to iterate on a document, preserve existing content unless explicitly told to remove it. Add, refine, or restructure — don't delete without being asked.
@@ -32,3 +34,7 @@
 - No application source code, build systems, or dependencies.
 - No CI/CD, Docker, or infrastructure configuration.
 - Do not create `package.json`, `requirements.txt`, or similar files.
+
+### Exception for prototypes
+- `prototypes/` is the exception to the "no application code" rule. These files are product artifacts, not production apps.
+- Keep prototypes lightweight and portable: no build step, no package manager, no framework setup required to view them.

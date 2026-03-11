@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Connect your domain</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --bg: #fff;
+        --bg-subtle: #fafafa;
+        --surface: #fff;
+        --surface-raised: #fafafa;
+        --text-primary: #0a0a0a;
+        --text-secondary: #666;
+        --text-tertiary: #999;
+        --border: #eaeaea;
+        --border-strong: #ccc;
+        --accent: #0070f3;
+        --accent-light: #e8f4ff;
+        --success: #0a7;
+        --success-bg: #e6f9f0;
+        --warning: #f5a623;
+        --warning-bg: #fff8e8;
+        --error: #e00;
+        --shadow-sm: 0 1px 2px rgba(0,0,0,.04);
+        --shadow-md: 0 4px 12px rgba(0,0,0,.05);
+        --shadow-lg: 0 8px 30px rgba(0,0,0,.08);
+        --radius-sm: 8px;
+        --radius-md: 12px;
+        --font: 'Inter', -apple-system, system-ui, sans-serif;
+        --mono: 'SF Mono', 'Fira Code', 'Fira Mono', Menlo, monospace;
+        --transition: 150ms ease;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #0a0a0a;
+          --bg-subtle: #111;
+          --surface: #111;
+          --surface-raised: #1a1a1a;
+          --text-primary: #ededed;
+          --text-secondary: #888;
+          --text-tertiary: #555;
+          --border: #222;
+          --border-strong: #444;
+          --accent: #3291ff;
+          --accent-light: rgba(50,145,255,.12);
+          --success-bg: rgba(0,170,119,.1);
+          --warning-bg: rgba(245,166,35,.1);
+          --shadow-sm: 0 1px 2px rgba(0,0,0,.2);
+          --shadow-md: 0 4px 12px rgba(0,0,0,.3);
+          --shadow-lg: 0 8px 30px rgba(0,0,0,.4);
+        }
+      }
+
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+
+      body {
+        background: var(--bg);
+        color: var(--text-primary);
+        font: 400 14px/1.6 var(--font);
+        -webkit-font-smoothing: antialiased;
+      }
+
+      /* --- NAV BAR --- */
+      .nav {
+        position: sticky; top: 0; z-index: 50;
+        display: flex; align-items: center; gap: 16px;
+        height: 56px; padding: 0 24px;
+        border-bottom: 1px solid var(--border);
+        background: var(--bg);
+      }
+      .nav-logo {
+        width: 24px; height: 24px;
+        border-radius: 6px; background: var(--text-primary);
+      }
+      .nav-title { font-weight: 600; font-size: 14px; }
+      .nav-sep {
+        color: var(--text-tertiary); font-size: 20px; font-weight: 300;
+      }
+      .nav-page { color: var(--text-secondary); font-size: 14px; }
+
+      /* --- LAYOUT --- */
+      .layout {
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 48px 24px 80px;
+      }
+
+      /* --- STEP INDICATOR --- */
+      .steps-bar {
+        display: flex; align-items: center; gap: 0;
+        margin-bottom: 48px;
+      }
+      .step-item {
+        display: flex; align-items: center; gap: 10px;
+        cursor: pointer; padding: 8px 0;
+        transition: opacity var(--transition);
+        opacity: 0.35;
+      }
+      .step-item:hover { opacity: 0.6; }
+      .step-item.active { opacity: 1; }
+      .step-item.done { opacity: 0.7; }
+      .step-dot {
+        width: 28px; height: 28px;
+        border-radius: 50%;
+        border: 2px solid var(--border-strong);
+        display: flex; align-items: center; justify-content: center;
+        font-size: 12px; font-weight: 600; color: var(--text-secondary);
+        flex-shrink: 0;
+        transition: all var(--transition);
+      }
+      .step-item.active .step-dot {
+        background: var(--text-primary);
+        border-color: var(--text-primary);
+        color: var(--bg);
+      }
+      .step-item.done .step-dot {
+        background: var(--success);
+        border-color: var(--success);
+        color: #fff;
+      }
+      .step-label {
+        font-size: 13px; font-weight: 500;
+        color: var(--text-secondary);
+        white-space: nowrap;
+      }
+      .step-item.active .step-label { color: var(--text-primary); font-weight: 600; }
+      .step-connector {
+        flex: 1; height: 1px;
+        background: var(--border);
+        margin: 0 16px;
+        min-width: 24px;
+      }
+
+      /* --- SCREEN HEADER --- */
+      .screen { display: none; }
+      .screen.active { display: block; animation: fadeIn 250ms ease; }
+      @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+      .screen-header { margin-bottom: 32px; }
+      .screen-header h1 {
+        font-size: 28px; font-weight: 600;
+        letter-spacing: -0.04em; line-height: 1.2;
+        margin-bottom: 8px;
+      }
+      .screen-header p {
+        color: var(--text-secondary);
+        font-size: 15px; line-height: 1.6;
+        max-width: 560px;
+      }
+
+      /* --- CARDS --- */
+      .card {
+        border: 1px solid var(--border);
+        border-radius: var(--radius-md);
+        background: var(--surface);
+        overflow: hidden;
+      }
+      .card + .card { margin-top: 16px; }
+      .card-body { padding: 20px 24px; }
+      .card-header {
+        padding: 14px 24px;
+        border-bottom: 1px solid var(--border);
+        background: var(--surface-raised);
+        display: flex; align-items: center; justify-content: space-between;
+      }
+      .card-header h3 {
+        font-size: 13px; font-weight: 600;
+      }
+
+      /* --- FORM ELEMENTS --- */
+      .form-group { margin-bottom: 20px; }
+      .form-label {
+        display: block;
+        font-size: 13px; font-weight: 500;
+        margin-bottom: 6px;
+      }
+      .form-input {
+        width: 100%;
+        height: 40px; padding: 0 12px;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        background: var(--bg);
+        color: var(--text-primary);
+        font: inherit; font-size: 14px;
+        transition: border-color var(--transition), box-shadow var(--transition);
+        outline: none;
+      }
+      .form-input:focus {
+        border-color: var(--text-primary);
+        box-shadow: 0 0 0 1px var(--text-primary);
+      }
+      .form-input::placeholder { color: var(--text-tertiary); }
+      .form-hint {
+        margin-top: 6px;
+        font-size: 13px; color: var(--text-tertiary);
+      }
+      .form-hint.error { color: var(--error); }
+      .form-hint.success { color: var(--success); }
+
+      /* --- BUTTONS --- */
+      .btn {
+        display: inline-flex; align-items: center; gap: 6px;
+        height: 36px; padding: 0 14px;
+        border-radius: var(--radius-sm);
+        font: inherit; font-size: 13px; font-weight: 500;
+        cursor: pointer;
+        transition: all var(--transition);
+        border: 1px solid var(--border);
+        background: var(--surface);
+        color: var(--text-primary);
+      }
+      .btn:hover { background: var(--surface-raised); }
+      .btn-primary {
+        background: var(--text-primary);
+        border-color: var(--text-primary);
+        color: var(--bg);
+      }
+      .btn-primary:hover { opacity: 0.85; background: var(--text-primary); }
+      .btn-sm { height: 30px; padding: 0 10px; font-size: 12px; }
+      .btn-row { display: flex; gap: 8px; align-items: center; }
+      .btn-row-end { justify-content: flex-end; }
+      .btn-row-between { justify-content: space-between; }
+
+      /* --- STATUS PILL --- */
+      .pill {
+        display: inline-flex; align-items: center; gap: 5px;
+        height: 24px; padding: 0 10px;
+        border-radius: 999px;
+        font-size: 12px; font-weight: 500;
+      }
+      .pill-dot {
+        width: 6px; height: 6px; border-radius: 50%;
+      }
+      .pill-warning  { background: var(--warning-bg); color: var(--warning); }
+      .pill-warning .pill-dot { background: var(--warning); }
+      .pill-success  { background: var(--success-bg); color: var(--success); }
+      .pill-success .pill-dot { background: var(--success); }
+      .pill-neutral  { background: var(--surface-raised); color: var(--text-secondary); }
+      .pill-neutral .pill-dot { background: var(--text-tertiary); }
+
+      /* --- TABLE --- */
+      .table-wrap { overflow-x: auto; }
+      table { width: 100%; border-collapse: collapse; }
+      th, td {
+        padding: 10px 16px;
+        text-align: left;
+        font-size: 13px;
+        border-bottom: 1px solid var(--border);
+      }
+      th {
+        font-weight: 500;
+        color: var(--text-secondary);
+        font-size: 12px;
+        background: var(--surface-raised);
+      }
+      tbody tr:last-child td { border-bottom: none; }
+      tbody tr:hover td { background: var(--bg-subtle); }
+
+      /* --- CODE --- */
+      code {
+        font-family: var(--mono);
+        font-size: 12.5px;
+        padding: 3px 7px;
+        background: var(--surface-raised);
+        border: 1px solid var(--border);
+        border-radius: 5px;
+        color: var(--text-primary);
+      }
+
+      /* --- REGISTRAR TABS --- */
+      .tab-group {
+        display: flex; gap: 2px;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        background: var(--surface-raised);
+        padding: 3px;
+        margin-bottom: 24px;
+      }
+      .tab-btn {
+        flex: 1;
+        padding: 8px 12px;
+        border: none; border-radius: 6px;
+        background: transparent;
+        font: inherit; font-size: 13px; font-weight: 500;
+        color: var(--text-secondary);
+        cursor: pointer;
+        transition: all var(--transition);
+      }
+      .tab-btn:hover { color: var(--text-primary); }
+      .tab-btn.active {
+        background: var(--surface);
+        color: var(--text-primary);
+        box-shadow: var(--shadow-sm);
+      }
+
+      /* --- DOMAIN LIST --- */
+      .domain-row {
+        display: flex; align-items: center; gap: 12px;
+        padding: 14px 24px;
+      }
+      .domain-row + .domain-row { border-top: 1px solid var(--border); }
+      .domain-icon {
+        width: 32px; height: 32px;
+        border-radius: 50%;
+        background: var(--surface-raised);
+        border: 1px solid var(--border);
+        display: flex; align-items: center; justify-content: center;
+      }
+      .domain-icon svg { width: 16px; height: 16px; color: var(--text-secondary); }
+      .domain-info { flex: 1; }
+      .domain-name { font-weight: 500; font-size: 14px; }
+      .domain-sub { font-size: 12px; color: var(--text-tertiary); margin-top: 1px; }
+
+      /* --- RECORD ROW (copy) --- */
+      .record-copy {
+        display: flex; align-items: center; gap: 8px;
+      }
+      .record-copy code { flex: 1; }
+      .record-copy .btn-sm { flex-shrink: 0; }
+
+      /* --- STATUS BLOCK --- */
+      .status-block {
+        text-align: center;
+        padding: 48px 24px;
+      }
+      .status-icon {
+        width: 56px; height: 56px; border-radius: 50%;
+        margin: 0 auto 20px;
+        display: flex; align-items: center; justify-content: center;
+      }
+      .status-icon.pending {
+        background: var(--warning-bg);
+        color: var(--warning);
+      }
+      .status-icon.connected {
+        background: var(--success-bg);
+        color: var(--success);
+      }
+      .status-icon svg { width: 28px; height: 28px; }
+      .status-title {
+        font-size: 20px; font-weight: 600;
+        letter-spacing: -0.02em;
+        margin-bottom: 6px;
+      }
+      .status-desc {
+        color: var(--text-secondary);
+        font-size: 14px; line-height: 1.6;
+        max-width: 420px; margin: 0 auto 24px;
+      }
+
+      /* --- DETAIL GRID --- */
+      .detail-grid {
+        display: grid; grid-template-columns: 1fr 1fr 1fr;
+        border-top: 1px solid var(--border);
+      }
+      .detail-cell {
+        padding: 16px 24px;
+        border-right: 1px solid var(--border);
+      }
+      .detail-cell:last-child { border-right: none; }
+      .detail-label {
+        font-size: 12px; color: var(--text-tertiary);
+        margin-bottom: 4px;
+      }
+      .detail-value { font-size: 14px; font-weight: 500; }
+
+      /* --- GUIDE CONTENT --- */
+      .guide-list {
+        list-style: none; padding: 0;
+      }
+      .guide-list li {
+        padding: 10px 0;
+        border-bottom: 1px solid var(--border);
+        font-size: 14px; color: var(--text-secondary);
+        display: flex; align-items: baseline; gap: 10px;
+      }
+      .guide-list li:last-child { border-bottom: none; }
+      .guide-num {
+        font-size: 11px; font-weight: 600;
+        color: var(--text-tertiary);
+        background: var(--surface-raised);
+        width: 20px; height: 20px;
+        border-radius: 50%;
+        display: inline-flex; align-items: center; justify-content: center;
+        flex-shrink: 0;
+      }
+
+      /* --- SEPARATOR --- */
+      .sep { height: 24px; }
+      .sep-lg { height: 40px; }
+
+      /* --- RESPONSIVE --- */
+      @media (max-width: 640px) {
+        .layout { padding: 24px 16px 60px; }
+        .steps-bar { gap: 0; overflow-x: auto; }
+        .step-label { display: none; }
+        .step-connector { min-width: 16px; }
+        .screen-header h1 { font-size: 22px; }
+        .detail-grid { grid-template-columns: 1fr; }
+        .detail-cell { border-right: none; border-bottom: 1px solid var(--border); }
+        .detail-cell:last-child { border-bottom: none; }
+        .tab-group { flex-wrap: wrap; }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- NAV -->
+    <nav class="nav">
+      <div class="nav-logo"></div>
+      <span class="nav-title">Settings</span>
+      <span class="nav-sep">/</span>
+      <span class="nav-page">Domains</span>
+    </nav>
+
+    <div class="layout">
+      <!-- STEP INDICATOR -->
+      <div class="steps-bar" id="steps-bar">
+        <div class="step-item active" data-step="0">
+          <div class="step-dot">1</div>
+          <span class="step-label">Domain</span>
+        </div>
+        <div class="step-connector"></div>
+        <div class="step-item" data-step="1">
+          <div class="step-dot">2</div>
+          <span class="step-label">DNS records</span>
+        </div>
+        <div class="step-connector"></div>
+        <div class="step-item" data-step="2">
+          <div class="step-dot">3</div>
+          <span class="step-label">Verification</span>
+        </div>
+        <div class="step-connector"></div>
+        <div class="step-item" data-step="3">
+          <div class="step-dot">4</div>
+          <span class="step-label">Connected</span>
+        </div>
+      </div>
+
+      <!-- SCREEN 1: DOMAIN -->
+      <section class="screen active" data-screen="0">
+        <div class="screen-header">
+          <h1>Add your domain</h1>
+          <p>Enter the domain you already own. We'll look it up and get the DNS records you need to add at your registrar.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-body">
+            <div class="form-group">
+              <label class="form-label" for="domain-input">Domain</label>
+              <input class="form-input" id="domain-input" type="text" value="mysite.com" placeholder="yourdomain.com" />
+              <div class="form-hint" id="domain-hint">Enter a root domain you own — like <strong>yourclub.com</strong></div>
+            </div>
+            <div class="btn-row btn-row-end">
+              <button class="btn" id="check-btn" type="button">Check domain</button>
+              <button class="btn btn-primary" type="button" data-action="next">Add domain</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="sep"></div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3>Domains on this site</h3>
+          </div>
+          <div class="domain-row">
+            <div class="domain-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10A15.3 15.3 0 0 1 12 2z"/></svg>
+            </div>
+            <div class="domain-info">
+              <div class="domain-name">mysite.com</div>
+              <div class="domain-sub">Added just now</div>
+            </div>
+            <span class="pill pill-warning"><span class="pill-dot"></span>Not configured</span>
+            <button class="btn btn-sm">Remove</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- SCREEN 2: DNS RECORDS -->
+      <section class="screen" data-screen="1">
+        <div class="screen-header">
+          <h1>Configure DNS</h1>
+          <p>Add these records where you manage your domain. Pick your registrar below for instructions that match their interface.</p>
+        </div>
+
+        <div class="tab-group" id="registrar-tabs">
+          <button class="tab-btn active" data-reg="godaddy">GoDaddy</button>
+          <button class="tab-btn" data-reg="squarespace">Squarespace</button>
+          <button class="tab-btn" data-reg="namecheap">Namecheap</button>
+          <button class="tab-btn" data-reg="wix">Wix</button>
+          <button class="tab-btn" data-reg="other">Other</button>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3>Required DNS records</h3>
+            <span class="pill pill-neutral"><span class="pill-dot"></span>2 records</span>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Type</th>
+                  <th>Name</th>
+                  <th>Value</th>
+                  <th>TTL</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>A</code></td>
+                  <td><code>@</code></td>
+                  <td><code>76.76.21.21</code></td>
+                  <td>1 hour</td>
+                  <td><button class="btn btn-sm copy-btn" type="button">Copy</button></td>
+                </tr>
+                <tr>
+                  <td><code>CNAME</code></td>
+                  <td><code>www</code></td>
+                  <td><code>cname.vercel-dns.com</code></td>
+                  <td>1 hour</td>
+                  <td><button class="btn btn-sm copy-btn" type="button">Copy</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="sep"></div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3 id="guide-title">GoDaddy — how to add records</h3>
+          </div>
+          <div class="card-body">
+            <ol class="guide-list" id="guide-list">
+              <li><span class="guide-num">1</span> Log in to GoDaddy and open <strong>DNS Management</strong> for your domain.</li>
+              <li><span class="guide-num">2</span> Add an <strong>A record</strong> — set Name to <code>@</code>, Value to <code>76.76.21.21</code>, TTL to 1 hour.</li>
+              <li><span class="guide-num">3</span> Add a <strong>CNAME record</strong> — set Name to <code>www</code>, Value to <code>cname.vercel-dns.com</code>, TTL to 1 hour.</li>
+              <li><span class="guide-num">4</span> Save your changes. DNS can take a few minutes to several hours to propagate.</li>
+            </ol>
+          </div>
+        </div>
+
+        <div class="sep"></div>
+        <div class="btn-row btn-row-between">
+          <button class="btn" type="button" data-action="prev">Back</button>
+          <button class="btn btn-primary" type="button" data-action="next">I've added these records</button>
+        </div>
+      </section>
+
+      <!-- SCREEN 3: VERIFICATION -->
+      <section class="screen" data-screen="2">
+        <div class="screen-header">
+          <h1>Checking your DNS</h1>
+          <p>We're looking for the records you added. This can take a few minutes — sometimes longer depending on your registrar.</p>
+        </div>
+
+        <div class="card">
+          <div class="status-block" id="verification-block">
+            <div class="status-icon pending" id="verify-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6l4 2m6-2a10 10 0 1 1-20 0 10 10 0 0 1 20 0z"/></svg>
+            </div>
+            <div class="status-title" id="verify-title">Propagation in progress</div>
+            <p class="status-desc" id="verify-desc">Your registrar's DNS changes are still being distributed. You can close this page and come back — we'll keep checking automatically.</p>
+            <div class="btn-row" style="justify-content:center;">
+              <button class="btn" type="button" id="verify-btn">Check again</button>
+              <button class="btn btn-primary" type="button" data-action="next">Skip to connected</button>
+            </div>
+          </div>
+          <div class="detail-grid">
+            <div class="detail-cell">
+              <div class="detail-label">Domain</div>
+              <div class="detail-value">mysite.com</div>
+            </div>
+            <div class="detail-cell">
+              <div class="detail-label">A record</div>
+              <div class="detail-value" id="a-status">Checking…</div>
+            </div>
+            <div class="detail-cell">
+              <div class="detail-label">CNAME</div>
+              <div class="detail-value" id="cname-status">Checking…</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SCREEN 4: CONNECTED -->
+      <section class="screen" data-screen="3">
+        <div class="screen-header">
+          <h1>You're all set</h1>
+          <p>Your domain is connected. Visitors can now reach your site at the address you configured.</p>
+        </div>
+
+        <div class="card">
+          <div class="status-block">
+            <div class="status-icon connected">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+            </div>
+            <div class="status-title">Domain connected</div>
+            <p class="status-desc">HTTPS is enabled automatically. DNS stays with your registrar — you keep full control.</p>
+          </div>
+          <div class="detail-grid">
+            <div class="detail-cell">
+              <div class="detail-label">Domain</div>
+              <div class="detail-value">mysite.com</div>
+            </div>
+            <div class="detail-cell">
+              <div class="detail-label">Status</div>
+              <div class="detail-value" style="color:var(--success)">Active</div>
+            </div>
+            <div class="detail-cell">
+              <div class="detail-label">SSL</div>
+              <div class="detail-value">Enabled</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sep"></div>
+
+        <div class="card">
+          <div class="card-header"><h3>What you can do next</h3></div>
+          <div class="card-body">
+            <ul class="guide-list">
+              <li><span class="guide-num">→</span>Visit <strong>mysite.com</strong> to see your live site.</li>
+              <li><span class="guide-num">→</span>Remove or change the domain anytime from this settings page.</li>
+              <li><span class="guide-num">→</span>If you switch registrars later, just re-add the same DNS records.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="sep"></div>
+        <div class="btn-row btn-row-end">
+          <button class="btn" type="button" id="restart-btn">Restart demo</button>
+        </div>
+      </section>
+    </div>
+
+    <script>
+    (function() {
+      var screens = document.querySelectorAll('.screen');
+      var stepItems = document.querySelectorAll('.step-item');
+      var active = 0;
+
+      function go(i) {
+        if (i < 0 || i >= screens.length) return;
+        active = i;
+        screens.forEach(function(s, idx) {
+          s.classList.toggle('active', idx === active);
+        });
+        stepItems.forEach(function(s, idx) {
+          s.classList.remove('active', 'done');
+          if (idx < active) s.classList.add('done');
+          if (idx === active) s.classList.add('active');
+        });
+        var dot;
+        stepItems.forEach(function(s, idx) {
+          dot = s.querySelector('.step-dot');
+          if (idx < active) dot.innerHTML = '✓';
+          else dot.textContent = idx + 1;
+        });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      document.addEventListener('click', function(e) {
+        var action = e.target.getAttribute('data-action');
+        if (action === 'next') go(active + 1);
+        if (action === 'prev') go(active - 1);
+      });
+
+      stepItems.forEach(function(item) {
+        item.addEventListener('click', function() {
+          go(parseInt(item.getAttribute('data-step')));
+        });
+      });
+
+      // Check domain
+      var checkBtn = document.getElementById('check-btn');
+      var domainInput = document.getElementById('domain-input');
+      var domainHint = document.getElementById('domain-hint');
+      checkBtn.addEventListener('click', function() {
+        var v = domainInput.value.trim();
+        if (!/^[a-z0-9][a-z0-9.-]*\.[a-z]{2,}$/i.test(v)) {
+          domainHint.textContent = 'That doesn\'t look right — enter something like yourclub.com';
+          domainHint.className = 'form-hint error';
+        } else {
+          domainHint.textContent = 'Looks good — click "Add domain" to continue.';
+          domainHint.className = 'form-hint success';
+        }
+      });
+
+      // Registrar tabs
+      var guides = {
+        godaddy: {
+          title: 'GoDaddy — how to add records',
+          steps: [
+            'Log in to GoDaddy and open <strong>DNS Management</strong> for your domain.',
+            'Add an <strong>A record</strong> — set Name to <code>@</code>, Value to <code>76.76.21.21</code>, TTL to 1 hour.',
+            'Add a <strong>CNAME record</strong> — set Name to <code>www</code>, Value to <code>cname.vercel-dns.com</code>, TTL to 1 hour.',
+            'Save your changes. DNS can take a few minutes to several hours to propagate.'
+          ]
+        },
+        squarespace: {
+          title: 'Squarespace — how to add records',
+          steps: [
+            'Open your Squarespace domain\'s <strong>DNS settings</strong> panel.',
+            'Add an <strong>A record</strong> — set Host to <code>@</code>, Data to <code>76.76.21.21</code>.',
+            'Add a <strong>CNAME record</strong> — set Host to <code>www</code>, Alias to <code>cname.vercel-dns.com</code>.',
+            'TTL is automatic on Squarespace. Save and wait for propagation.'
+          ]
+        },
+        namecheap: {
+          title: 'Namecheap — how to add records',
+          steps: [
+            'Go to <strong>Advanced DNS</strong> in your Namecheap domain dashboard.',
+            'Add an <strong>A record</strong> — Host: <code>@</code>, Value: <code>76.76.21.21</code>, TTL: Automatic.',
+            'Add a <strong>CNAME record</strong> — Host: <code>www</code>, Value: <code>cname.vercel-dns.com</code>, TTL: Automatic.',
+            'Save all records. Changes typically propagate within an hour.'
+          ]
+        },
+        wix: {
+          title: 'Wix — how to add records',
+          steps: [
+            'Open the <strong>DNS Records</strong> page in your Wix domain settings.',
+            'Add an <strong>A record</strong> — Host Name: <code>@</code>, Value: <code>76.76.21.21</code>, TTL: 1 hour.',
+            'Add a <strong>CNAME record</strong> — Host Name: <code>www</code>, Value: <code>cname.vercel-dns.com</code>, TTL: 1 hour.',
+            'Save and allow time for DNS propagation.'
+          ]
+        },
+        other: {
+          title: 'Other registrar — how to add records',
+          steps: [
+            'Find the <strong>DNS</strong> or <strong>DNS Records</strong> section in your registrar\'s dashboard.',
+            'Add an <strong>A record</strong> pointing <code>@</code> to <code>76.76.21.21</code> with a 1-hour TTL.',
+            'Add a <strong>CNAME record</strong> pointing <code>www</code> to <code>cname.vercel-dns.com</code> with a 1-hour TTL.',
+            'If you get stuck, <strong>contact support</strong> and we\'ll walk you through it.'
+          ]
+        }
+      };
+
+      document.getElementById('registrar-tabs').addEventListener('click', function(e) {
+        var btn = e.target.closest('.tab-btn');
+        if (!btn) return;
+        document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        var key = btn.getAttribute('data-reg');
+        var g = guides[key];
+        document.getElementById('guide-title').textContent = g.title;
+        var html = '';
+        g.steps.forEach(function(s, i) {
+          html += '<li><span class="guide-num">' + (i+1) + '</span>' + s + '</li>';
+        });
+        document.getElementById('guide-list').innerHTML = html;
+      });
+
+      // Copy
+      document.querySelectorAll('.copy-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          btn.textContent = 'Copied!';
+          setTimeout(function() { btn.textContent = 'Copy'; }, 1500);
+        });
+      });
+
+      // Verify
+      document.getElementById('verify-btn').addEventListener('click', function() {
+        document.getElementById('verify-icon').className = 'status-icon connected';
+        document.getElementById('verify-icon').innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>';
+        document.getElementById('verify-title').textContent = 'Records detected';
+        document.getElementById('verify-desc').textContent = 'Both DNS records are resolving correctly. Your domain is ready.';
+        document.getElementById('a-status').textContent = 'Verified ✓';
+        document.getElementById('a-status').style.color = 'var(--success)';
+        document.getElementById('cname-status').textContent = 'Verified ✓';
+        document.getElementById('cname-status').style.color = 'var(--success)';
+      });
+
+      // Restart
+      document.getElementById('restart-btn').addEventListener('click', function() {
+        domainHint.innerHTML = 'Enter a root domain you own — like <strong>yourclub.com</strong>';
+        domainHint.className = 'form-hint';
+        document.getElementById('verify-icon').className = 'status-icon pending';
+        document.getElementById('verify-icon').innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6l4 2m6-2a10 10 0 1 1-20 0 10 10 0 0 1 20 0z"/></svg>';
+        document.getElementById('verify-title').textContent = 'Propagation in progress';
+        document.getElementById('verify-desc').textContent = "Your registrar's DNS changes are still being distributed. You can close this page and come back — we'll keep checking automatically.";
+        document.getElementById('a-status').textContent = 'Checking…';
+        document.getElementById('a-status').style.color = '';
+        document.getElementById('cname-status').textContent = 'Checking…';
+        document.getElementById('cname-status').style.color = '';
+        go(0);
+      });
+    })();
+    </script>
+  </body>
+</html>

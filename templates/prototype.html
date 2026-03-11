@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>[Feature Name]</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --bg: #fff;
+        --bg-subtle: #fafafa;
+        --surface: #fff;
+        --surface-raised: #fafafa;
+        --text-primary: #0a0a0a;
+        --text-secondary: #666;
+        --text-tertiary: #999;
+        --border: #eaeaea;
+        --border-strong: #ccc;
+        --accent: #0070f3;
+        --accent-light: #e8f4ff;
+        --success: #0a7;
+        --success-bg: #e6f9f0;
+        --warning: #f5a623;
+        --warning-bg: #fff8e8;
+        --error: #e00;
+        --shadow-sm: 0 1px 2px rgba(0,0,0,.04);
+        --shadow-md: 0 4px 12px rgba(0,0,0,.05);
+        --shadow-lg: 0 8px 30px rgba(0,0,0,.08);
+        --radius-sm: 8px;
+        --radius-md: 12px;
+        --font: 'Inter', -apple-system, system-ui, sans-serif;
+        --mono: 'SF Mono', 'Fira Code', Menlo, monospace;
+        --transition: 150ms ease;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #0a0a0a;
+          --bg-subtle: #111;
+          --surface: #111;
+          --surface-raised: #1a1a1a;
+          --text-primary: #ededed;
+          --text-secondary: #888;
+          --text-tertiary: #555;
+          --border: #222;
+          --border-strong: #444;
+          --accent: #3291ff;
+          --accent-light: rgba(50,145,255,.12);
+          --success-bg: rgba(0,170,119,.1);
+          --warning-bg: rgba(245,166,35,.1);
+          --shadow-sm: 0 1px 2px rgba(0,0,0,.2);
+          --shadow-md: 0 4px 12px rgba(0,0,0,.3);
+          --shadow-lg: 0 8px 30px rgba(0,0,0,.4);
+        }
+      }
+
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+
+      body {
+        background: var(--bg);
+        color: var(--text-primary);
+        font: 400 14px/1.6 var(--font);
+        -webkit-font-smoothing: antialiased;
+      }
+
+      /* --- NAV --- */
+      .nav {
+        position: sticky; top: 0; z-index: 50;
+        display: flex; align-items: center; gap: 16px;
+        height: 56px; padding: 0 24px;
+        border-bottom: 1px solid var(--border);
+        background: var(--bg);
+      }
+      .nav-logo {
+        width: 24px; height: 24px;
+        border-radius: 6px; background: var(--text-primary);
+      }
+      .nav-title { font-weight: 600; font-size: 14px; }
+      .nav-sep { color: var(--text-tertiary); font-size: 20px; font-weight: 300; }
+      .nav-page { color: var(--text-secondary); font-size: 14px; }
+
+      /* --- LAYOUT --- */
+      .layout {
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 48px 24px 80px;
+      }
+
+      /* --- STEP INDICATOR --- */
+      .steps-bar {
+        display: flex; align-items: center;
+        margin-bottom: 48px;
+      }
+      .step-item {
+        display: flex; align-items: center; gap: 10px;
+        cursor: pointer; padding: 8px 0;
+        transition: opacity var(--transition);
+        opacity: 0.35;
+      }
+      .step-item:hover { opacity: 0.6; }
+      .step-item.active { opacity: 1; }
+      .step-item.done { opacity: 0.7; }
+      .step-dot {
+        width: 28px; height: 28px; border-radius: 50%;
+        border: 2px solid var(--border-strong);
+        display: flex; align-items: center; justify-content: center;
+        font-size: 12px; font-weight: 600; color: var(--text-secondary);
+        flex-shrink: 0; transition: all var(--transition);
+      }
+      .step-item.active .step-dot {
+        background: var(--text-primary);
+        border-color: var(--text-primary);
+        color: var(--bg);
+      }
+      .step-item.done .step-dot {
+        background: var(--success); border-color: var(--success); color: #fff;
+      }
+      .step-label {
+        font-size: 13px; font-weight: 500;
+        color: var(--text-secondary); white-space: nowrap;
+      }
+      .step-item.active .step-label { color: var(--text-primary); font-weight: 600; }
+      .step-connector {
+        flex: 1; height: 1px;
+        background: var(--border); margin: 0 16px; min-width: 24px;
+      }
+
+      /* --- SCREENS --- */
+      .screen { display: none; }
+      .screen.active { display: block; animation: fadeIn 250ms ease; }
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(6px); }
+        to { opacity: 1; transform: none; }
+      }
+
+      .screen-header { margin-bottom: 32px; }
+      .screen-header h1 {
+        font-size: 28px; font-weight: 600;
+        letter-spacing: -0.04em; line-height: 1.2;
+        margin-bottom: 8px;
+      }
+      .screen-header p {
+        color: var(--text-secondary);
+        font-size: 15px; line-height: 1.6; max-width: 560px;
+      }
+
+      /* --- CARDS --- */
+      .card {
+        border: 1px solid var(--border);
+        border-radius: var(--radius-md);
+        background: var(--surface); overflow: hidden;
+      }
+      .card + .card { margin-top: 16px; }
+      .card-body { padding: 20px 24px; }
+      .card-header {
+        padding: 14px 24px;
+        border-bottom: 1px solid var(--border);
+        background: var(--surface-raised);
+        display: flex; align-items: center; justify-content: space-between;
+      }
+      .card-header h3 { font-size: 13px; font-weight: 600; }
+
+      /* --- FORM --- */
+      .form-group { margin-bottom: 20px; }
+      .form-label { display: block; font-size: 13px; font-weight: 500; margin-bottom: 6px; }
+      .form-input {
+        width: 100%; height: 40px; padding: 0 12px;
+        border: 1px solid var(--border); border-radius: var(--radius-sm);
+        background: var(--bg); color: var(--text-primary);
+        font: inherit; font-size: 14px; outline: none;
+        transition: border-color var(--transition), box-shadow var(--transition);
+      }
+      .form-input:focus {
+        border-color: var(--text-primary);
+        box-shadow: 0 0 0 1px var(--text-primary);
+      }
+      .form-input::placeholder { color: var(--text-tertiary); }
+      .form-hint { margin-top: 6px; font-size: 13px; color: var(--text-tertiary); }
+      .form-hint.error { color: var(--error); }
+      .form-hint.success { color: var(--success); }
+
+      /* --- BUTTONS --- */
+      .btn {
+        display: inline-flex; align-items: center; gap: 6px;
+        height: 36px; padding: 0 14px;
+        border-radius: var(--radius-sm);
+        font: inherit; font-size: 13px; font-weight: 500;
+        cursor: pointer; transition: all var(--transition);
+        border: 1px solid var(--border);
+        background: var(--surface); color: var(--text-primary);
+      }
+      .btn:hover { background: var(--surface-raised); }
+      .btn-primary {
+        background: var(--text-primary);
+        border-color: var(--text-primary);
+        color: var(--bg);
+      }
+      .btn-primary:hover { opacity: 0.85; background: var(--text-primary); }
+      .btn-sm { height: 30px; padding: 0 10px; font-size: 12px; }
+      .btn-row { display: flex; gap: 8px; align-items: center; }
+      .btn-row-end { justify-content: flex-end; }
+      .btn-row-between { justify-content: space-between; }
+
+      /* --- PILLS --- */
+      .pill {
+        display: inline-flex; align-items: center; gap: 5px;
+        height: 24px; padding: 0 10px;
+        border-radius: 999px; font-size: 12px; font-weight: 500;
+      }
+      .pill-dot { width: 6px; height: 6px; border-radius: 50%; }
+      .pill-warning { background: var(--warning-bg); color: var(--warning); }
+      .pill-warning .pill-dot { background: var(--warning); }
+      .pill-success { background: var(--success-bg); color: var(--success); }
+      .pill-success .pill-dot { background: var(--success); }
+      .pill-neutral { background: var(--surface-raised); color: var(--text-secondary); }
+      .pill-neutral .pill-dot { background: var(--text-tertiary); }
+
+      /* --- TABLE --- */
+      .table-wrap { overflow-x: auto; }
+      table { width: 100%; border-collapse: collapse; }
+      th, td {
+        padding: 10px 16px; text-align: left;
+        font-size: 13px; border-bottom: 1px solid var(--border);
+      }
+      th {
+        font-weight: 500; color: var(--text-secondary);
+        font-size: 12px; background: var(--surface-raised);
+      }
+      tbody tr:last-child td { border-bottom: none; }
+      tbody tr:hover td { background: var(--bg-subtle); }
+
+      /* --- CODE --- */
+      code {
+        font-family: var(--mono); font-size: 12.5px;
+        padding: 3px 7px; background: var(--surface-raised);
+        border: 1px solid var(--border); border-radius: 5px;
+        color: var(--text-primary);
+      }
+
+      /* --- TABS --- */
+      .tab-group {
+        display: flex; gap: 2px;
+        border: 1px solid var(--border); border-radius: var(--radius-sm);
+        background: var(--surface-raised); padding: 3px;
+        margin-bottom: 24px;
+      }
+      .tab-btn {
+        flex: 1; padding: 8px 12px;
+        border: none; border-radius: 6px;
+        background: transparent; font: inherit;
+        font-size: 13px; font-weight: 500;
+        color: var(--text-secondary); cursor: pointer;
+        transition: all var(--transition);
+      }
+      .tab-btn:hover { color: var(--text-primary); }
+      .tab-btn.active {
+        background: var(--surface);
+        color: var(--text-primary);
+        box-shadow: var(--shadow-sm);
+      }
+
+      /* --- STATUS BLOCK --- */
+      .status-block { text-align: center; padding: 48px 24px; }
+      .status-icon {
+        width: 56px; height: 56px; border-radius: 50%;
+        margin: 0 auto 20px;
+        display: flex; align-items: center; justify-content: center;
+      }
+      .status-icon.pending { background: var(--warning-bg); color: var(--warning); }
+      .status-icon.connected { background: var(--success-bg); color: var(--success); }
+      .status-icon svg { width: 28px; height: 28px; }
+      .status-title {
+        font-size: 20px; font-weight: 600;
+        letter-spacing: -0.02em; margin-bottom: 6px;
+      }
+      .status-desc {
+        color: var(--text-secondary);
+        font-size: 14px; line-height: 1.6;
+        max-width: 420px; margin: 0 auto 24px;
+      }
+
+      /* --- DETAIL GRID --- */
+      .detail-grid {
+        display: grid; grid-template-columns: repeat(3, 1fr);
+        border-top: 1px solid var(--border);
+      }
+      .detail-cell { padding: 16px 24px; border-right: 1px solid var(--border); }
+      .detail-cell:last-child { border-right: none; }
+      .detail-label { font-size: 12px; color: var(--text-tertiary); margin-bottom: 4px; }
+      .detail-value { font-size: 14px; font-weight: 500; }
+
+      /* --- GUIDE LIST --- */
+      .guide-list { list-style: none; padding: 0; }
+      .guide-list li {
+        padding: 10px 0; border-bottom: 1px solid var(--border);
+        font-size: 14px; color: var(--text-secondary);
+        display: flex; align-items: baseline; gap: 10px;
+      }
+      .guide-list li:last-child { border-bottom: none; }
+      .guide-num {
+        font-size: 11px; font-weight: 600; color: var(--text-tertiary);
+        background: var(--surface-raised);
+        width: 20px; height: 20px; border-radius: 50%;
+        display: inline-flex; align-items: center; justify-content: center;
+        flex-shrink: 0;
+      }
+
+      /* --- SPACERS --- */
+      .sep { height: 24px; }
+      .sep-lg { height: 40px; }
+
+      /* --- RESPONSIVE --- */
+      @media (max-width: 640px) {
+        .layout { padding: 24px 16px 60px; }
+        .step-label { display: none; }
+        .step-connector { min-width: 16px; }
+        .screen-header h1 { font-size: 22px; }
+        .detail-grid { grid-template-columns: 1fr; }
+        .detail-cell { border-right: none; border-bottom: 1px solid var(--border); }
+        .detail-cell:last-child { border-bottom: none; }
+        .tab-group { flex-wrap: wrap; }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- NAV: breadcrumb-style top bar -->
+    <nav class="nav">
+      <div class="nav-logo"></div>
+      <span class="nav-title">[Section]</span>
+      <span class="nav-sep">/</span>
+      <span class="nav-page">[Page]</span>
+    </nav>
+
+    <div class="layout">
+      <!-- STEP INDICATOR: one step-item per screen -->
+      <div class="steps-bar" id="steps-bar">
+        <div class="step-item active" data-step="0">
+          <div class="step-dot">1</div>
+          <span class="step-label">[Step 1]</span>
+        </div>
+        <div class="step-connector"></div>
+        <div class="step-item" data-step="1">
+          <div class="step-dot">2</div>
+          <span class="step-label">[Step 2]</span>
+        </div>
+        <!-- Add more steps as needed -->
+      </div>
+
+      <!-- SCREEN: duplicate this section block for each step -->
+      <section class="screen active" data-screen="0">
+        <div class="screen-header">
+          <h1>[Screen heading]</h1>
+          <p>[Short description of what happens on this screen.]</p>
+        </div>
+
+        <div class="card">
+          <div class="card-body">
+            <div class="form-group">
+              <label class="form-label" for="example-input">[Label]</label>
+              <input class="form-input" id="example-input" type="text" placeholder="[Placeholder]" />
+              <div class="form-hint">[Helper text]</div>
+            </div>
+            <div class="btn-row btn-row-end">
+              <button class="btn btn-primary" type="button" data-action="next">[Continue]</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen" data-screen="1">
+        <div class="screen-header">
+          <h1>[Next screen]</h1>
+          <p>[Description]</p>
+        </div>
+        <div class="card">
+          <div class="card-body">
+            <p style="color:var(--text-secondary)">[Content goes here]</p>
+          </div>
+        </div>
+        <div class="sep"></div>
+        <div class="btn-row btn-row-between">
+          <button class="btn" type="button" data-action="prev">Back</button>
+          <button class="btn btn-primary" type="button" data-action="next">[Continue]</button>
+        </div>
+      </section>
+    </div>
+
+    <script>
+    (function() {
+      var screens = document.querySelectorAll('.screen');
+      var stepItems = document.querySelectorAll('.step-item');
+      var active = 0;
+
+      function go(i) {
+        if (i < 0 || i >= screens.length) return;
+        active = i;
+        screens.forEach(function(s, idx) {
+          s.classList.toggle('active', idx === active);
+        });
+        stepItems.forEach(function(s, idx) {
+          s.classList.remove('active', 'done');
+          if (idx < active) s.classList.add('done');
+          if (idx === active) s.classList.add('active');
+        });
+        stepItems.forEach(function(s, idx) {
+          var dot = s.querySelector('.step-dot');
+          dot.innerHTML = idx < active ? '✓' : (idx + 1);
+        });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      document.addEventListener('click', function(e) {
+        var action = e.target.getAttribute('data-action');
+        if (action === 'next') go(active + 1);
+        if (action === 'prev') go(active - 1);
+      });
+
+      stepItems.forEach(function(item) {
+        item.addEventListener('click', function() {
+          go(parseInt(item.getAttribute('data-step')));
+        });
+      });
+    })();
+    </script>
+  </body>
+</html>

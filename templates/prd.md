@@ -31,7 +31,7 @@ _Optional but recommended when the feature has multiple paths, phases, or user j
 | 1 | _Action or decision_ | _Backend / UI response_ |
 | 2 | … | … |
 
-**Outcome:** _One line: what’s true when this flow is done._
+**Outcome:** _One line: what's true when this flow is done._
 
 ---
 
@@ -45,25 +45,31 @@ _Optional but recommended when the feature has multiple paths, phases, or user j
 
 ## Requirements
 
-_Group by theme or area of the feature / product. P0 = must ship. P1 = in scope if we have time._
+_Each `###` section is a product area (becomes an Epic). Each `####` sub-section is roughly one day of work (becomes a ticket). Bullets under each sub-section define what must be true when the work is done. P0 = must ship. P1 = in scope if we have time._
 
-### [Theme / area name]
+### [Product area / work area name]
 
-**P0**
-
--
-
-**P1**
-
--
-
-### [Another theme / area]
+#### [Sub-section — ~1 day of work]
 
 **P0**
 
 -
 
 **P1**
+
+-
+
+#### [Another sub-section]
+
+**P0**
+
+-
+
+### [Another product area]
+
+#### [Sub-section]
+
+**P0**
 
 -
 
@@ -83,4 +89,4 @@ _Explicitly not in this version. Stops scope creep._
 
 ## Tech / constraints
 
-_Anything engineering needs to know. Dependencies, limits, "don't do X"._
+_Anything engineering needs to know. Dependencies, limits, "don't do X." Cross-cutting constraints that apply to multiple areas live here, not as their own requirements section._
