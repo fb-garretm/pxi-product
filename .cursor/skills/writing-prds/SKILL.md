@@ -10,6 +10,17 @@ description: Drafts and edits Product Requirements Documents following team conv
 1. Read `templates/prd.md` — use it as the starting structure for every new PRD.
 2. Check `discovery/` for any related research. If a discovery doc exists for this topic, read it and use its insights to inform the Problem, requirements, and success signals.
 
+## No unverified facts
+
+Never reference APIs, database tables, schema fields, organization types, data models, services, or other system artifacts as existing unless another document in this repo explicitly describes them as shipped or built — not just proposed. If you're unsure whether something exists, ask the user before writing it as fact.
+
+When a PRD needs to reference something that doesn't exist yet, clearly mark it:
+- Use **"New"** or **"Proposed"** labels (the PRD already uses "New" vs. "From OSS" — follow that pattern).
+- For data points, APIs, or tables: say "to be created" or "does not exist yet" rather than writing as if they're already in the system.
+- If a requirement depends on an unconfirmed system artifact, flag it as an open question rather than baking the assumption into requirements.
+
+This prevents downstream work (tickets, prototypes, engineering) from building on things that don't exist.
+
 ## Conventions
 
 - **Section order matters.** Ship by and Design/UX come first, right after the title.

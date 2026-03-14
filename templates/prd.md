@@ -90,3 +90,5 @@ _Explicitly not in this version. Stops scope creep._
 ## Tech / constraints
 
 _Anything engineering needs to know. Dependencies, limits, "don't do X." Cross-cutting constraints that apply to multiple areas live here, not as their own requirements section._
+
+_**Fact-check reminder:** Do not reference APIs, tables, schema fields, org types, or other system artifacts as existing unless confirmed by another doc in this repo or by the user. Label anything new as "New" or "Proposed." If unsure, add to Open questions._

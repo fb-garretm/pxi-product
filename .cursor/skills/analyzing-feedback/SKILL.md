@@ -44,6 +44,10 @@ _N mentions_
 
 **Feed into a PRD:** Use themes to write the Problem section and inform requirements. Strongest themes become P0 requirements, secondary themes become P1. Use quotes in "How we'll know it worked" to phrase qualitative signals.
 
+## No unverified facts
+
+When connecting feedback to system capabilities or existing features, do not state that APIs, tables, org types, or other system artifacts exist unless confirmed by another doc in this repo or by the user. Feedback analysis should surface user needs — not assert system state.
+
 ## Connecting to other docs
 
 - If a related discovery doc exists in `discovery/`, check it for context and add to it rather than creating a duplicate.

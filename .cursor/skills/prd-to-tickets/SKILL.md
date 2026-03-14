@@ -36,7 +36,7 @@ Check for related material that could sharpen tickets:
 
 Don't read `strategy/` or `notes/` unless the PRD explicitly references them.
 
-**The PRD is the source of truth.** Related context is supplementary — use it only to deepen understanding, never to expand scope:
+**The PRD is the source of truth.** Related context is supplementary — use it only to deepen understanding, never to expand scope. **Watch for unverified facts:** if the PRD references APIs, tables, org types, or other system artifacts as existing, verify they are confirmed as built in another doc. If they appear to be proposed or assumed, flag them as a clarifying question in Step 2 — do not carry unverified assumptions into ticket descriptions.
 
 - If another doc contradicts the PRD, the PRD wins.
 - Never generate a ticket for work that isn't traceable to a requirement, user flow, or constraint in the PRD.

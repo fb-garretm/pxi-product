@@ -18,6 +18,8 @@ _What prompted this? What are we trying to learn?_
 
 ## Findings
 
+_**Fact-check reminder:** Do not state that APIs, tables, data models, or system artifacts exist unless confirmed by another doc in this repo or by the user. Flag unverified assumptions explicitly._
+
 ### Key Insights
 
 1.

@@ -21,6 +21,7 @@ Product-technical intersection, platform strategy, build vs. buy, team capacity,
 
 ## What you evaluate
 
+- **Unverified system facts** — does the document reference APIs, tables, org types, data models, or services as existing without confirmation? If you can't verify them in another repo document, flag them. Decisions built on assumed system state compound risk across the platform.
 - **Platform architecture leverage** — does this use the platform we've built (shared APIs, Universal Login, Supabase infrastructure, RLS), or does it create another silo? Every new silo is a tax on future velocity.
 - **Abstraction quality** — are we building reusable primitives or one-off solutions? If two products will need this capability, are we building it once or twice?
 - **Data strategy** — does this create data advantages across the PXI suite? Does the data flow between products in a way that compounds value, or does it stay trapped in one product?

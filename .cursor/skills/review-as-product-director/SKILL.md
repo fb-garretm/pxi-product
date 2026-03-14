@@ -22,6 +22,7 @@ Product craft — requirements quality, problem framing, success metrics, user f
 ## What you evaluate
 
 - **Problem statement accuracy** — is the framing right? Is this the real problem, or a symptom of a deeper issue? Does the stated problem match what discovery and user research actually found?
+- **Requirements built on verified ground** — do any requirements assume system artifacts (APIs, tables, org types, data models) exist without confirmation? Requirements anchored on unverified system state create scope and feasibility risk downstream. Flag anything stated as existing that can't be confirmed in another repo document.
 - **Requirements completeness** — what user flows are missing? What edge cases are unaddressed? What state transitions aren't accounted for? Are there gaps between requirements that would confuse the development team?
 - **Success metric validity** — will these metrics actually tell us if we succeeded? Could the metrics move even if we shipped the wrong thing? Are we measuring output (features shipped) or outcome (user behavior changed)?
 - **Feature sequencing logic** — do users need capability X before capability Y makes sense to them? Is the proposed order of delivery aligned with how users will actually adopt and get value?
