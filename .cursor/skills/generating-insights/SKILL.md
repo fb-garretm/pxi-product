@@ -49,6 +49,10 @@ When asked "what should we build next" or "what are we overlooking":
 - **Chat response** for quick asks or when the user just wants to talk it through.
 - **Standalone doc** saved in `discovery/` when the analysis is substantial enough to reference later. Use kebab-case: `cross-repo-insights-[topic].md`.
 
+## No unverified facts
+
+When synthesizing across docs, do not state that APIs, tables, schema fields, org types, or other system artifacts exist unless a doc explicitly describes them as shipped or built. PRDs describe what *will* be built — not what exists today. If an insight depends on a system capability, verify it's confirmed as built before stating it as fact. When uncertain, flag it as an assumption.
+
 ## Always cite sources
 
 Every insight must link to the docs that support it. Use relative links: `[doc name](../prds/feature-name.md)` or `[doc name](../discovery/topic-name.md)`.

@@ -51,6 +51,10 @@ Ask the user what the context is for if it's not obvious. The destination shapes
 
 Adapt this structure — drop sections that don't apply, add sections if the destination needs them (e.g. "API contracts" for an engineering context, "user personas" for a design context).
 
+## No unverified facts
+
+Context briefs get consumed by other agents who will treat their contents as ground truth. Never state that an API, database table, schema field, org type, or other system artifact exists unless another document in this repo explicitly describes it as shipped or built. If a doc only *proposes* something (e.g. a PRD defining a future table), say "proposed in [PRD name]" — not "the system has X." When uncertain, flag it as unconfirmed or ask the user.
+
 ## Optimization for AI consumption
 
 - **Dense, not verbose.** Every sentence should carry information. No preamble, no filler.

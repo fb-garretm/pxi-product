@@ -2,6 +2,8 @@
 
 This file is shared context for all board review agents. Read it before reviewing any document.
 
+> **Important:** This context describes the product portfolio and vision. It does not confirm which specific APIs, database tables, schema fields, or system artifacts have been built and shipped. Do not treat product descriptions here as proof that a particular technical artifact exists. When reviewing or writing documents, verify system-level claims against other repo docs or ask the user.
+
 ## Company
 
 **Fastbreak AI** is a youth and amateur sports technology platform. It provides tournament and league management, club operations, registration, scheduling, communication, and white-label apps for sports organizations.

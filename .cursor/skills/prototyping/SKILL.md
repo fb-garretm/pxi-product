@@ -77,7 +77,7 @@ Common screen types:
 
 ### Use requirements to fill the screens
 
-Requirements tell you what controls, fields, status indicators, validation messages, and CTAs belong on each screen. Do not invent features that aren't in the PRD.
+Requirements tell you what controls, fields, status indicators, validation messages, and CTAs belong on each screen. Do not invent features that aren't in the PRD. If the PRD references system artifacts (APIs, tables, org types) as existing but they aren't confirmed elsewhere in the repo, don't reinforce those assumptions in the prototype — use generic placeholder data instead.
 
 ### Use Design / UX as the brief
 

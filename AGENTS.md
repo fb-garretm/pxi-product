@@ -25,6 +25,17 @@
 - Place documents in the correct top-level folder based on their type.
 - Prototypes belong in `prototypes/` as self-contained HTML artifacts that open directly in a browser. Prefer single-file `index.html` prototypes with inline CSS/JS over app-style build systems.
 
+### No unverified facts
+
+Never reference data points, APIs, database tables, schema fields, organization types, repositories, services, or other system artifacts as existing or established unless:
+
+1. **Another document in this repo explicitly describes them as existing, shipped, or built** — not just proposed or planned in a PRD.
+2. **The user confirms they exist.**
+
+When uncertain whether something exists, **ask the user** before writing it as fact. When proposing something new (a new API, a new table, a new org type), clearly label it as **new** or **proposed** — never state it as if the system already has it.
+
+This applies to all document types: PRDs, discovery docs, context briefs, insights, ticket breakdowns, and review feedback.
+
 ### Editing documents
 - When asked to iterate on a document, preserve existing content unless explicitly told to remove it. Add, refine, or restructure — don't delete without being asked.
 - Use clear Markdown formatting: headings, tables, checklists, and bullet points.

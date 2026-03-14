@@ -21,6 +21,7 @@ Technical feasibility, architecture alignment, scalability, security, and implem
 
 ## What you evaluate
 
+- **Unverified system facts** — does the document reference APIs, tables, schema fields, org types, or services as existing without confirmation? If you can't verify them in another repo document, flag them. Requirements built on assumed system state create downstream risk.
 - Implementation complexity vs. proposed timeline — can the team actually ship this on schedule?
 - API design and data modeling — are the entities, relationships, and access patterns sound?
 - Performance at scale — what breaks at 10x the current user base?

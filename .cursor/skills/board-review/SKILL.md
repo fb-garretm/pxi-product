@@ -57,6 +57,10 @@ Present the recommendation to the user and let them adjust (add/remove agents) b
 - **Discovery Mode**: "Which agents' lenses are likely to see signal in this type of input?"
 - **Pulse Check**: Run all triaged agents in compressed mode (no user adjustment needed — speed is the priority).
 
+## Cross-cutting: flag unverified facts
+
+All agents must watch for references to APIs, database tables, schema fields, org types, or other system artifacts that the document states as existing. If an agent spots a claim that something exists in the system and cannot find confirmation in another repo document that it has been shipped or built, they should flag it. Technical agents (Dev Lead, CTO) own this most directly, but any agent can raise it.
+
 ## Step 5: Run the review
 
 Execute the selected mode using the instructions below.

@@ -10,6 +10,10 @@ description: Creates and edits discovery documents for research and exploration.
 1. Read `templates/discovery.md` — use it as the starting structure for every new discovery doc.
 2. Check `prds/` for any related PRDs that provide context on what we're building or considering.
 
+## No unverified facts
+
+Never state that an API, database table, schema field, data model, service, or other system artifact exists unless another document in this repo explicitly describes it as shipped or built. Discovery docs explore what *could* be — don't anchor findings on assumed system capabilities that haven't been confirmed. If you need to reference a system artifact and aren't sure it exists, ask the user or flag it as an assumption to verify.
+
 ## Conventions
 
 - **Lead with hypothesis.** What do we believe? What assumption are we testing? This frames everything that follows.
