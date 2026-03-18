@@ -117,6 +117,15 @@ If nothing meaningful happened in the last 24 hours, say so:
 No significant changes found since last consolidation.
 ```
 
+## Automation
+
+The mechanical portion of this skill (git-log extraction, entry creation, 48-hour pruning) runs automatically:
+
+- **GitHub Actions:** `.github/workflows/nightly-memory-consolidation.yml` — runs every night at 2:00 AM UTC and can be triggered manually from the Actions tab.
+- **Local cron (optional):** `bash scripts/setup-memory-cron.sh` installs a local 2:00 AM cron job.
+
+The automated script handles Steps 1–2 and the pruning half of Step 2. **Steps 3–4 (promotion to long-term, project-state updates) require this agent skill** because they need semantic understanding.
+
 ## Rules
 
 - Never fabricate entries. Every memory item must trace to a real source (commit, file change, conversation).

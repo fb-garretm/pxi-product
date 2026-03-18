@@ -30,7 +30,8 @@ At the **end of a significant session** (substantial decisions made, new prefere
 
 ### Memory maintenance
 
-- **Nightly automation:** `scripts/consolidate-memory.sh` runs via cron to append git activity to recent memory and prune stale entries. Install with `bash scripts/setup-memory-cron.sh`.
+- **Nightly automation (GitHub Actions):** The workflow `.github/workflows/nightly-memory-consolidation.yml` runs every night at 2:00 AM UTC. It executes `scripts/consolidate-memory.sh`, which appends git activity to recent memory, prunes stale entries, and auto-commits to `main`. It can also be triggered manually from the Actions tab.
+- **Local cron (optional):** For local-machine scheduling, run `bash scripts/setup-memory-cron.sh` to install a 2:00 AM cron job.
 - **Full consolidation:** Trigger the `consolidate-memory` agent skill for semantic processing — promotion of important items from recent → long-term memory, and project-state updates.
 - **Never fabricate memory entries.** Every entry must trace to a real source.
 
