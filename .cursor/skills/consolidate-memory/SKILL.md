@@ -1,13 +1,19 @@
 ---
 name: consolidate-memory
-description: Reads recent activity, extracts key decisions, preferences, and facts, updates the memory files, and promotes important items from recent → long-term. Use when the user says "consolidate memory," "update memory," "sync memory," "nightly memory," or at the start/end of a working session.
+description: Reads recent activity, extracts key decisions, preferences, and facts, updates the memory files, and promotes important items from recent → long-term. Triggered automatically at session start when memory is stale (>24 h), or manually when the user says "consolidate memory," "update memory," "sync memory," or at the end of a significant session.
 ---
 
 # Consolidate Memory
 
+## When this runs
+
+- **Automatically at session start** — AGENTS.md instructs the agent to check the most recent timestamp in `recent-memory.md`. If it's older than 24 hours (or empty), run this skill before doing anything else.
+- **Manually** — the user says "consolidate memory," "update memory," or "sync memory."
+- **At session end** — when substantial decisions, preferences, or project-state changes occurred during the session.
+
 ## Purpose
 
-Maintain the persistent memory layer in `memory/`. This skill gathers context from the last 24 hours of activity, distills it into the three memory files, and promotes durable facts from recent memory to long-term memory.
+Maintain the persistent memory layer in `memory/`. This skill gathers context from recent activity, distills it into the three memory files, and promotes durable facts from recent memory to long-term memory.
 
 ## Sources of truth
 
@@ -36,7 +42,9 @@ Cursor does not expose raw conversation logs as files. Instead, gather recent co
    - `memory/long-term-memory.md`
    - `memory/project-memory.md`
 
-5. **Current session context** — if the user triggers this mid-session, also consider what was discussed or decided in the current conversation.
+5. **Current session context** — if triggered mid-session or at session end, also consider what was discussed or decided in the current conversation.
+
+6. **Helper script (optional)** — run `bash scripts/consolidate-memory.sh` first to handle the mechanical git-log extraction and 48-hour pruning, then proceed with the semantic steps below.
 
 ## Consolidation procedure
 
@@ -116,15 +124,6 @@ If nothing meaningful happened in the last 24 hours, say so:
 ### Memory consolidation — no new activity
 No significant changes found since last consolidation.
 ```
-
-## Automation
-
-The mechanical portion of this skill (git-log extraction, entry creation, 48-hour pruning) runs automatically:
-
-- **GitHub Actions:** `.github/workflows/nightly-memory-consolidation.yml` — runs every night at 2:00 AM UTC and can be triggered manually from the Actions tab.
-- **Local cron (optional):** `bash scripts/setup-memory-cron.sh` installs a local 2:00 AM cron job.
-
-The automated script handles Steps 1–2 and the pruning half of Step 2. **Steps 3–4 (promotion to long-term, project-state updates) require this agent skill** because they need semantic understanding.
 
 ## Rules
 

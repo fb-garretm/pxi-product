@@ -20,20 +20,21 @@
 
 ## Persistent memory
 
-At the **start of every session**, the agent must:
+### Session startup (do this every time)
 
-1. **Read `memory/recent-memory.md` in full** — treat its contents as inline context for the current conversation. This file contains the rolling 48-hour window of decisions, actions, and context from prior sessions.
-2. **Be aware of `memory/long-term-memory.md`** — reference it by path whenever you need stable facts, established preferences, recurring patterns, or past decisions. Read it when a question touches user preferences, conventions, or historical rationale.
+1. **Read `memory/recent-memory.md` in full.** Treat its contents as inline context for the current conversation. This is the rolling 48-hour window of decisions, actions, and context from prior sessions.
+2. **Read `memory/long-term-memory.md` in full.** This contains stable facts, preferences, patterns, and past decisions that persist across sessions.
 3. **Check `memory/project-memory.md`** when the conversation involves active work, blockers, or project status.
+4. **Auto-consolidate if stale.** Look at the most recent `### YYYY-MM-DD HH:MM` timestamp in `recent-memory.md`. If it is **older than 24 hours** (or the file has no entries yet), immediately run the `consolidate-memory` skill before doing anything else. This is the scheduled job — every session start is the trigger.
 
-At the **end of a significant session** (substantial decisions made, new preferences expressed, or project state changed), proactively suggest running the `consolidate-memory` skill to capture what happened.
+### Session end
 
-### Memory maintenance
+At the **end of a significant session** (substantial decisions made, new preferences expressed, or project state changed), run the `consolidate-memory` skill to capture what happened before closing out.
 
-- **Nightly automation (GitHub Actions):** The workflow `.github/workflows/nightly-memory-consolidation.yml` runs every night at 2:00 AM UTC. It executes `scripts/consolidate-memory.sh`, which appends git activity to recent memory, prunes stale entries, and auto-commits to `main`. It can also be triggered manually from the Actions tab.
-- **Local cron (optional):** For local-machine scheduling, run `bash scripts/setup-memory-cron.sh` to install a 2:00 AM cron job.
-- **Full consolidation:** Trigger the `consolidate-memory` agent skill for semantic processing — promotion of important items from recent → long-term memory, and project-state updates.
-- **Never fabricate memory entries.** Every entry must trace to a real source.
+### Memory rules
+
+- **Never fabricate memory entries.** Every entry must trace to a real source (commit, file change, conversation).
+- The helper script `scripts/consolidate-memory.sh` can be invoked by the agent for the mechanical parts (git-log extraction, entry creation, 48-hour pruning). The `consolidate-memory` skill handles the full semantic flow including promotion and project-state updates.
 
 ## Agent guidelines
 
