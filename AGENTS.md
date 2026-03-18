@@ -16,6 +16,23 @@
 | `strategy/` | Roadmap, vision, strategic planning |
 | `templates/` | Reusable document templates |
 | `.cursor/skills/` | Cursor Agent Skills — auto-applied when writing PRDs, discovery docs, or importing documents |
+| `memory/` | Persistent agent memory — recent context, long-term knowledge, and active project state |
+
+## Persistent memory
+
+At the **start of every session**, the agent must:
+
+1. **Read `memory/recent-memory.md` in full** — treat its contents as inline context for the current conversation. This file contains the rolling 48-hour window of decisions, actions, and context from prior sessions.
+2. **Be aware of `memory/long-term-memory.md`** — reference it by path whenever you need stable facts, established preferences, recurring patterns, or past decisions. Read it when a question touches user preferences, conventions, or historical rationale.
+3. **Check `memory/project-memory.md`** when the conversation involves active work, blockers, or project status.
+
+At the **end of a significant session** (substantial decisions made, new preferences expressed, or project state changed), proactively suggest running the `consolidate-memory` skill to capture what happened.
+
+### Memory maintenance
+
+- **Nightly automation:** `scripts/consolidate-memory.sh` runs via cron to append git activity to recent memory and prune stale entries. Install with `bash scripts/setup-memory-cron.sh`.
+- **Full consolidation:** Trigger the `consolidate-memory` agent skill for semantic processing — promotion of important items from recent → long-term memory, and project-state updates.
+- **Never fabricate memory entries.** Every entry must trace to a real source.
 
 ## Agent guidelines
 
